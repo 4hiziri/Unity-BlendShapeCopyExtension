@@ -14,7 +14,7 @@ namespace BlendShapeCopyTool {
 
             _copiedBlendShapes = blendshapes;
 
-            Debug.Log("Copy: success");
+            // Debug.Log("Copy BlendShapes: success");
         }
 
         [MenuItem("CONTEXT/SkinnedMeshRenderer/Paste BlendShapes Strictly", false, 120)]
@@ -28,7 +28,6 @@ namespace BlendShapeCopyTool {
             List<(string, float)> blendShapes = ExtractBlendShapes(smrCmp);
 
             if (IsSameBlendShapes(_copiedBlendShapes, blendShapes)) {
-                Debug.Log("PasteBlendShapeStrictly: start to paste");
                 Undo.RecordObject(smrCmp as Object, "Paste BlendShapes");
                 MovBlendShapes(smrCmp);
             } else {
