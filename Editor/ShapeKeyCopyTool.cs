@@ -77,7 +77,7 @@ namespace BlendShapeCopyTool {
             Mesh mesh = smrCmp.sharedMesh;
 
             foreach(var (s, f) in _copiedBlendShapes) {
-                if (f == 0.0f) {
+                if (f != 0.0f) {
                     int idx = mesh.GetBlendShapeIndex(s);
 
                     if (idx != -1) {
