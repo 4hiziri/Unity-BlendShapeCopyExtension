@@ -28,7 +28,7 @@ namespace BlendShapeCopyTool {
             List<(string, float)> blendShapes = ExtractBlendShapes(smrCmp);
 
             if (IsSameBlendShapes(_copiedBlendShapes, blendShapes)) {
-                Undo.RecordObject(smrCmp as Object, "Paste BlendShapes");
+                Undo.RecordObject(smrCmp as Object, "Paste BlendShapes Strictly");
                 MovBlendShapes(smrCmp);
             } else {
                 Debug.Log("PasteBlendShapeStrictly: doesn't equal blendShapes");
@@ -46,6 +46,19 @@ namespace BlendShapeCopyTool {
             MovBlendShapes(cmd.context as SkinnedMeshRenderer);
         }
 
+        [MenuItem("CONTEXT/SkinnedMeshRenderer/Paste BlendShapes Only NonZero Values", false, 120)]
+        static private void PasteBlendShapeOnlyNonZero(MenuCommand cmd) {
+            if (_copiedBlendShapes == null) {
+                Debug.LogAssertion("PasteBlendShapeOnlyNonZero: _copiedBlendShapes is null");
+                return;
+            }
+
+            SkinnedMeshRenderer smrCmp = cmd.context as SkinnedMeshRenderer;
+
+            Undo.RecordObject(cmd.context, "Paste BlendShapes Only NonZero Values");
+            MovBlendShapesNonZero(smrCmp);
+        }
+
         // Copy _copiedBlendShapes values to smrCmp
         static private void MovBlendShapes(SkinnedMeshRenderer smrCmp) {
             Mesh mesh = smrCmp.sharedMesh;
@@ -55,6 +68,21 @@ namespace BlendShapeCopyTool {
 
                 if (idx != -1) {
                     smrCmp.SetBlendShapeWeight(idx, f);
+                }
+            }
+        }
+
+        // Copy _copiedBlendShapes values to smrCmp, only non-zero values
+        static private void MovBlendShapesNonZero(SkinnedMeshRenderer smrCmp) {
+            Mesh mesh = smrCmp.sharedMesh;
+
+            foreach(var (s, f) in _copiedBlendShapes) {
+                if (f == 0.0f) {
+                    int idx = mesh.GetBlendShapeIndex(s);
+
+                    if (idx != -1) {
+                        smrCmp.SetBlendShapeWeight(idx, f);
+                    }
                 }
             }
         }
