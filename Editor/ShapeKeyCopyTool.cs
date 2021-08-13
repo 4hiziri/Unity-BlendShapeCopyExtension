@@ -46,7 +46,7 @@ namespace BlendShapeCopyTool {
             MovBlendShapes(cmd.context as SkinnedMeshRenderer);
         }
 
-        [MenuItem("CONTEXT/SkinnedMeshRenderer/Paste BlendShapes Only NonZero Values", false, 120)]
+        [MenuItem("CONTEXT/SkinnedMeshRenderer/Paste BlendShapes Only Non-Zero Values", false, 120)]
         static private void PasteBlendShapeOnlyNonZero(MenuCommand cmd) {
             if (_copiedBlendShapes == null) {
                 Debug.LogAssertion("PasteBlendShapeOnlyNonZero: _copiedBlendShapes is null");
@@ -55,7 +55,7 @@ namespace BlendShapeCopyTool {
 
             SkinnedMeshRenderer smrCmp = cmd.context as SkinnedMeshRenderer;
 
-            Undo.RecordObject(cmd.context, "Paste BlendShapes Only NonZero Values");
+            Undo.RecordObject(cmd.context, "Paste BlendShapes Only Non-Zero Values");
             MovBlendShapesNonZero(smrCmp);
         }
 
